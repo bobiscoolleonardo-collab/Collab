@@ -49,12 +49,6 @@ volumetric_fog_gi_inject = 0.0
 adjustment_enabled = true
 adjustment_contrast = 1.05
 
-[sub_resource type="BoxMesh" id="BoxMesh_2poj3"]
-size = Vector3(20, 10, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_wowpa"]
-size = Vector3(20, 10, 20)
-
 [sub_resource type="BoxMesh" id="BoxMesh_wrm1d"]
 size = Vector3(4, 1, 2)
 
@@ -142,47 +136,38 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Lighting" unique_id=1924020333]
 environment = SubResource("Environment_i6g32")
 
-[node name="Floor" type="StaticBody3D" parent="." unique_id=1147441855]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.69488, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor" unique_id=1739293450]
-mesh = SubResource("BoxMesh_2poj3")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor" unique_id=1694172693]
-shape = SubResource("BoxShape3D_wowpa")
-
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1990955789]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.733427, 2.6650887, -4.7510724)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.733427, 3.923604, -4.7510724)
 light_energy = 1.5
 light_volumetric_fog_energy = 0.5
 omni_range = 6.2528315
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="." unique_id=1256878660]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.649492, 2.6650887, 5.1020412)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.649492, 3.923604, 5.1020412)
 light_energy = 1.5
 light_volumetric_fog_energy = 0.5
 omni_range = 6.2528315
 
 [node name="OmniLight3D3" type="OmniLight3D" parent="." unique_id=874961501]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.792424, 2.6650887, 5.065784)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.792424, 3.923604, 5.065784)
 light_energy = 1.5
 light_volumetric_fog_energy = 0.5
 omni_range = 6.2528315
 
 [node name="OmniLight3D5" type="OmniLight3D" parent="." unique_id=1683137010]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3208809, 2.6650887, 0.06357336)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3208809, 3.923604, 0.06357336)
 light_energy = 1.5
 light_volumetric_fog_energy = 0.5
 omni_range = 6.2528315
 
 [node name="OmniLight3D4" type="OmniLight3D" parent="." unique_id=1492141090]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.792424, 2.6650887, -4.860452)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.792424, 3.923604, -4.860452)
 light_energy = 1.5
 light_volumetric_fog_energy = 0.5
 omni_range = 6.2528315
 
 [node name="Sphere" type="RigidBody3D" parent="." unique_id=2111528935]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7353401, 3.9441233, -12.78145)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7353401, 3.9441233, -38.755157)
 mass = 4.0
 script = ExtResource("3_wrm1d")
 
@@ -222,7 +207,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9232683, -0.53777933, 0.954
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9232683, -0.53777933, -0.949584)
 
 [node name="player" parent="." unique_id=298331612 instance=ExtResource("1_ebmjs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3665016, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5401495, 0)
 
 [node name="water" type="MeshInstance3D" parent="." unique_id=1268632989]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4070902, 0.40032053)
@@ -234,12 +219,13 @@ mesh = SubResource("PlaneMesh_1l0tm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8628092, 12.013616)
 mesh = SubResource("CylinderMesh_3dryh")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=720465323]
+[node name="Island" type="StaticBody3D" parent="." unique_id=720465323]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2418127, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1009208606]
-transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 47.918762)
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Island" unique_id=1009208606]
+transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_i6g32")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=820172125]
-transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 47.918762)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Island" unique_id=820172125]
+transform = Transform3D(-4.3711392e-08, 0, 1.0000001, 0, 1, 0, -1.0000001, 0, -4.3711392e-08, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_1l0tm")
