@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://dj42gbbys4127"]
+
+[ext_resource type="Script" uid="uid://g77wxivcs805" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="Shader" uid="uid://b1e5d05gsbdsd" path="res://Shaders/Pixelation.gdshader" id="2_cvnsp"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_cvnsp"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6t5aa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cvnsp"]
+shader = ExtResource("2_cvnsp")
+shader_parameter/pixel_size = 1.0
+shader_parameter/levels = 55.0
+shader_parameter/gamma = Vector2(0.125, 11)
+
+[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("neck", "camera", "hands")]
+script = ExtResource("1_v0iea")
+neck = NodePath("neck")
+camera = NodePath("neck/Camera3D")
+hands = NodePath("Hands")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=626068656]
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_cvnsp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1937834235]
+shape = SubResource("CapsuleShape3D_6t5aa")
+
+[node name="Hands" type="Node3D" parent="." unique_id=1107918164]
+
+[node name="Placement" type="Node3D" parent="Hands" unique_id=697998927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45480645, -0.81446767, -0.46641988)
+
+[node name="neck" type="Node3D" parent="." unique_id=2127024264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45556366, 0)
+
+[node name="Camera3D" type="Camera3D" parent="neck" unique_id=56609905]
+
+[node name="Control" type="Control" parent="." unique_id=758524449]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=800061311]
+material = SubResource("ShaderMaterial_cvnsp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
