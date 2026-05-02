@@ -15,21 +15,18 @@ var sway_amount := 0.5
 var sway_smooth := 10.0
 var target_roll := 0.0
 
+var is_moving
+
 var pitch := 0.0
 var sensitivity := 0.01
 
 var mouse_delta := Vector2.ZERO  # <-- NEW
-
-var is_moving : bool = false
-var is_idle : bool = false
-var is_falling : bool = false
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @export var neck : Node3D
 @export var camera : Camera3D
 @export var hands : Node3D
-
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -50,6 +47,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	
+	is_moving = false
+	
 	var normalized_mouse_x = mouse_delta.x / max(delta, 0.0001)
 	target_roll = clamp(-normalized_mouse_x * sway_amount * 0.001, -0.9, 0.9)
 	mouse_delta = Vector2.ZERO
@@ -59,9 +58,6 @@ func _physics_process(delta: float) -> void:
 	camera_bob(delta)
 
 	var speed = sprint_speed if Input.is_action_pressed("sprint") else walk_speed
-	is_moving = false
-	is_idle = true
-	is_falling = false
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -75,7 +71,6 @@ func _physics_process(delta: float) -> void:
 
 	if direction:
 		is_moving = true
-		is_idle = false
 		target_velocity.x = direction.x * speed
 		target_velocity.z = direction.z * speed
 
@@ -103,9 +98,6 @@ func camera_bob(delta: float):
 	var vertical := sin(bob_time) * bob_amount
 
 	# landing detection
-	if velocity_y_last < -1.0 and !is_on_floor():
-		is_falling = true
-
 	if is_on_floor() and velocity_y_last < -1.0:
 		landing_offset = 0.12
 
