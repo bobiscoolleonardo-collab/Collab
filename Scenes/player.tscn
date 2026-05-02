@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dj42gbbys4127"]
 
 [ext_resource type="Script" uid="uid://g77wxivcs805" path="res://Scripts/player.gd" id="1_v0iea"]
+[ext_resource type="PackedScene" uid="uid://cfy2rghhnl1os" path="res://Scenes/fishing_rod.tscn" id="2_6t5aa"]
 [ext_resource type="Shader" uid="uid://b1e5d05gsbdsd" path="res://Shaders/Pixelation.gdshader" id="2_cvnsp"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cvnsp"]
@@ -30,6 +31,9 @@ shape = SubResource("CapsuleShape3D_6t5aa")
 
 [node name="Placement" type="Node3D" parent="Hands" unique_id=697998927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45480645, -0.81446767, -0.46641988)
+
+[node name="FishingRod" parent="Hands/Placement" unique_id=1826954930 instance=ExtResource("2_6t5aa")]
+transform = Transform3D(7.868051e-09, 0.06, 2.2928234e-16, 0.012984329, -1.7026895e-09, 0.05857821, 0.05857821, -7.6816065e-09, -0.012984329, 0, 0, 0)
 
 [node name="neck" type="Node3D" parent="." unique_id=2127024264]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45556366, 0)
