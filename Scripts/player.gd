@@ -11,9 +11,12 @@ var base_height := 0
 var velocity_y_last := 0.0
 var landing_offset := 0.0
 
-var sway_amount := 0.025
+var sway_amount := 0.5
 var sway_smooth := 10.0
 var target_roll := 0.0
+
+var pitch := 0.0
+var sensitivity := 0.01
 
 var mouse_delta := Vector2.ZERO  # <-- NEW
 
@@ -33,14 +36,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
-			mouse_delta = event.relative  # <-- store instead of using directly
-			neck.rotate_y(-event.relative.x * 0.01)
-			hands.rotate_y(-event.relative.x * 0.01)
-			camera.rotate_x(-event.relative.y * 0.01)
-			camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-89), deg_to_rad(89))
+			mouse_delta = event.relative
+		# Yaw (left/right)
+			neck.rotate_y(-event.relative.x * sensitivity)
+			hands.rotate_y(-event.relative.x * sensitivity)
+		# Pitch (up/down) — FIXED
+			pitch -= event.relative.y * sensitivity
+			pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
+			camera.rotation.x = pitch
 
 
 func _physics_process(delta: float) -> void:
