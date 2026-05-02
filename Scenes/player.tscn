@@ -32,8 +32,8 @@ shape = SubResource("CapsuleShape3D_6t5aa")
 [node name="Placement" type="Node3D" parent="Hands" unique_id=697998927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45480645, -0.81446767, -0.46641988)
 
-[node name="FishingRod" parent="Hands/Placement" unique_id=1826954930 instance=ExtResource("2_6t5aa")]
-transform = Transform3D(7.868051e-09, 0.06, 2.2928234e-16, 0.008870633, -1.1632435e-09, 0.05934064, 0.05934064, -7.781587e-09, -0.008870633, 0, 0, 0)
+[node name="FishingRod" parent="Hands/Placement" unique_id=69697877 instance=ExtResource("2_6t5aa")]
+transform = Transform3D(1, 0, 0, 0, 0.9761219, 0.21722336, 0, -0.21722336, 0.9761219, 0, 0, 0)
 
 [node name="neck" type="Node3D" parent="." unique_id=2127024264]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45556366, 0)
