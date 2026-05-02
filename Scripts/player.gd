@@ -50,7 +50,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	print("hello world")
 	var normalized_mouse_x = mouse_delta.x / max(delta, 0.0001)
 	target_roll = clamp(-normalized_mouse_x * sway_amount * 0.001, -0.9, 0.9)
 	mouse_delta = Vector2.ZERO

@@ -98,7 +98,6 @@ subdivide_depth = 100
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting" unique_id=1982673979]
 transform = Transform3D(0.6150286, -0.66305155, 0.4267345, 1.4687029e-08, 0.5411947, 0.84089744, -0.78850484, -0.51717603, 0.3328502, -1.1920929e-07, 1.5319614, -4.239302)
 light_color = Color(0.8405217, 0.90653723, 1, 1)
-light_energy = 0.1
 light_angular_distance = 1.0
 shadow_enabled = true
 
