@@ -151,7 +151,7 @@ func _process(_delta):
 
 	line_mesh3.surface_add_vertex(start3)
 	line_mesh3.surface_add_vertex(mid3)
-	line_mesh3.surface_add_vertex(end3)
+	line_mesh3.surface_add_vertex(end3)	
 
 	line_mesh.surface_end()
 	line_mesh1.surface_end()
