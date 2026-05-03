@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bvkdas7wk7xog"
-path="res://.godot/imported/shack.glb-fb7466e7bb989a181e1ecb27807adcd2.scn"
+path="res://.godot/imported/shack.glb-83bd7e3d96200b0a8e87e61934494ddb.scn"
 
 [deps]
 
-source_file="res://Models/shack.glb"
-dest_files=["res://.godot/imported/shack.glb-fb7466e7bb989a181e1ecb27807adcd2.scn"]
+source_file="res://Models/Shop/shack.glb"
+dest_files=["res://.godot/imported/shack.glb-83bd7e3d96200b0a8e87e61934494ddb.scn"]
 
 [params]
 

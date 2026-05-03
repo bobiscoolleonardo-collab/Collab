@@ -29,7 +29,7 @@ func _ready():
 	add_child(line)
 
 	var mat = StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	mat.albedo_color = Color(0.8, 0.8, 0.8)
 
 	line.material_override = mat

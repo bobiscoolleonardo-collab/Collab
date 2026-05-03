@@ -1,4 +1,4 @@
-extends CharacterBody3D
+class_name Player extends CharacterBody3D
 
 var walk_speed = 5.0
 var sprint_speed = 7.0
@@ -11,11 +11,13 @@ var base_height := 0
 var velocity_y_last := 0.0
 var landing_offset := 0.0
 
-var sway_amount := 0.5
+var sway_amount := 0.3
 var sway_smooth := 10.0
 var target_roll := 0.0
 
 var is_moving
+var is_sprinting
+var movement_speed
 
 var pitch := 0.0
 var sensitivity := 0.01
@@ -28,6 +30,9 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var camera : Camera3D
 @export var hands : Node3D
 
+func _ready() -> void:
+	global.player = self
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -36,18 +41,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			mouse_delta = event.relative
-		# Yaw (left/right)
 			neck.rotate_y(-event.relative.x * sensitivity)
 			hands.rotate_y(-event.relative.x * sensitivity)
-		# Pitch (up/down) — FIXED
 			pitch -= event.relative.y * sensitivity
 			pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 			camera.rotation.x = pitch
-
+	
 
 func _physics_process(delta: float) -> void:
 	
 	is_moving = false
+	is_sprinting = false
 	
 	var normalized_mouse_x = mouse_delta.x / max(delta, 0.0001)
 	target_roll = clamp(-normalized_mouse_x * sway_amount * 0.001, -0.9, 0.9)
@@ -55,9 +59,8 @@ func _physics_process(delta: float) -> void:
 
 	camera.rotation.z = lerp(camera.rotation.z, target_roll, delta * sway_smooth)
 
-	camera_bob(delta)
-
-	var speed = sprint_speed if Input.is_action_pressed("sprint") else walk_speed
+	movement_speed = sprint_speed if Input.is_action_pressed("sprint") else walk_speed
+	is_sprinting = true if Input.is_action_pressed("sprint") else false
 
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -71,16 +74,16 @@ func _physics_process(delta: float) -> void:
 
 	if direction:
 		is_moving = true
-		target_velocity.x = direction.x * speed
-		target_velocity.z = direction.z * speed
+		target_velocity.x = direction.x * movement_speed
+		target_velocity.z = direction.z * movement_speed
 
 	velocity.x = lerp(velocity.x, target_velocity.x, 10 * delta)
 	velocity.z = lerp(velocity.z, target_velocity.z, 10 * delta)
 
 	# smooth return to center
 	target_roll = lerp(target_roll, 0.0, delta * 5.0)
-
 	move_and_slide()
+	camera_bob(delta)
 
 
 func camera_bob(delta: float):

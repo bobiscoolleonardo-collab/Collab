@@ -1,8 +1,8 @@
 [gd_resource type="ArrayMesh" format=4 uid="uid://c5pc6els45d5f"]
 
-[ext_resource type="Texture2D" uid="uid://dn664o0yds14w" path="res://Models/Fishing Rods/stylized_fishing_rod__sea_land_0.png" id="1_ooa7i"]
-[ext_resource type="Texture2D" uid="uid://dqugu823uculd" path="res://Models/Fishing Rods/stylized_fishing_rod__sea_land_1.png" id="2_jfled"]
-[ext_resource type="Texture2D" uid="uid://bufugcaki1sj4" path="res://Models/Fishing Rods/stylized_fishing_rod__sea_land_2.png" id="3_q7fea"]
+[ext_resource type="Texture2D" uid="uid://dn664o0yds14w" path="res://Models/Fishing Rods/Wooden/stylized_fishing_rod__sea_land_0.png" id="1_ooa7i"]
+[ext_resource type="Texture2D" uid="uid://dqugu823uculd" path="res://Models/Fishing Rods/Wooden/stylized_fishing_rod__sea_land_1.png" id="2_jfled"]
+[ext_resource type="Texture2D" uid="uid://bufugcaki1sj4" path="res://Models/Fishing Rods/Wooden/stylized_fishing_rod__sea_land_2.png" id="3_q7fea"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t6sy3"]
 resource_name = "Material.001"

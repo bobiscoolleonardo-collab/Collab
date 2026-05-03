@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://fmowxgik521g"
-path="res://.godot/imported/stylized_fishing_rod__sea_land.glb-d2c649bc77510a49587f0545be4a6b6d.scn"
+uid="uid://1mkqpmj8ap4d"
+path="res://.godot/imported/island.glb-5d952d46833ce4de72ea450e102b6f30.scn"
 
 [deps]
 
-source_file="res://Models/Fishing Rods/stylized_fishing_rod__sea_land.glb"
-dest_files=["res://.godot/imported/stylized_fishing_rod__sea_land.glb-d2c649bc77510a49587f0545be4a6b6d.scn"]
+source_file="res://Models/Island/island.glb"
+dest_files=["res://.godot/imported/island.glb-5d952d46833ce4de72ea450e102b6f30.scn"]
 
 [params]
 
@@ -37,6 +37,12 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"nodes": {
+"PATH:Plane": {
+"generate/physics": true
+}
+}
+}
 gltf/naming_version=2
 gltf/embedded_image_handling=1

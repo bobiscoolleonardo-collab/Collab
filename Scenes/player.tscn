@@ -3,6 +3,12 @@
 [ext_resource type="Script" uid="uid://g77wxivcs805" path="res://Scripts/player.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://cfy2rghhnl1os" path="res://Scenes/fishing_rod.tscn" id="2_6t5aa"]
 [ext_resource type="Shader" uid="uid://b1e5d05gsbdsd" path="res://Shaders/Pixelation.gdshader" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://dhvcrghyj05u7" path="res://Scripts/PlayerStates/StateMachine.gd" id="4_x3wgy"]
+[ext_resource type="Script" uid="uid://825morih6jb3" path="res://Scripts/PlayerStates/idle.gd" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://dx58k5ortwf80" path="res://Scripts/PlayerStates/walking.gd" id="6_8erm5"]
+[ext_resource type="Script" uid="uid://bg5ghk3ofs4g8" path="res://Scripts/PlayerStates/running.gd" id="7_8erm5"]
+[ext_resource type="Script" uid="uid://bqo2v0kxvqw61" path="res://Scripts/PlayerStates/jumping.gd" id="8_f1ek2"]
+[ext_resource type="Script" uid="uid://bo0w5qunldvo1" path="res://Scripts/PlayerStates/falling.gd" id="9_f1ek2"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cvnsp"]
 
@@ -60,3 +66,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="StateMachine" type="Node" parent="." unique_id=1114089350 node_paths=PackedStringArray("current_state")]
+script = ExtResource("4_x3wgy")
+current_state = NodePath("Idle")
+metadata/_custom_type_script = "uid://dhvcrghyj05u7"
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1557513157]
+script = ExtResource("5_3smsa")
+metadata/_custom_type_script = "uid://bqyadyjqf8i0"
+
+[node name="Walking" type="Node" parent="StateMachine" unique_id=1926175812]
+script = ExtResource("6_8erm5")
+metadata/_custom_type_script = "uid://bqyadyjqf8i0"
+
+[node name="Running" type="Node" parent="StateMachine" unique_id=1551724255]
+script = ExtResource("7_8erm5")
+metadata/_custom_type_script = "uid://bqyadyjqf8i0"
+
+[node name="Jumping" type="Node" parent="StateMachine" unique_id=2052472494]
+script = ExtResource("8_f1ek2")
+metadata/_custom_type_script = "uid://bqyadyjqf8i0"
+
+[node name="Falling" type="Node" parent="StateMachine" unique_id=718565160]
+script = ExtResource("9_f1ek2")
+metadata/_custom_type_script = "uid://bqyadyjqf8i0"
