@@ -13,10 +13,13 @@ height = 0.06
 [sub_resource type="SphereShape3D" id="SphereShape3D_88tmn"]
 radius = 0.03
 
-[node name="FishingRod" type="StaticBody3D" unique_id=69697877 node_paths=PackedStringArray("rod_tip", "bobber")]
+[node name="FishingRod" type="StaticBody3D" unique_id=69697877 node_paths=PackedStringArray("rod_tip", "bobber", "point1", "point2", "point3")]
 script = ExtResource("1_t02qk")
 rod_tip = NodePath("RodTip")
 bobber = NodePath("Bober")
+point1 = NodePath("Point1")
+point2 = NodePath("Point2")
+point3 = NodePath("Point3")
 sway_strength = 100.0
 
 [node name="Rod" type="MeshInstance3D" parent="." unique_id=1826954930]
@@ -30,6 +33,15 @@ shape = SubResource("ConcavePolygonShape3D_q27nk")
 
 [node name="RodTip" type="Marker3D" parent="." unique_id=1283501973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1116345, -0.11266847)
+
+[node name="Point1" type="Marker3D" parent="." unique_id=728704344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0810589, 0.73112905, -0.10001749)
+
+[node name="Point2" type="Marker3D" parent="." unique_id=562061047]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015008055, 1.1427227, -0.008711889)
+
+[node name="Point3" type="Marker3D" parent="." unique_id=369822611]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0067924187, 1.6510094, -0.027378067)
 
 [node name="Bober" type="StaticBody3D" parent="." unique_id=1873963251]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9145155, -0.173851)
