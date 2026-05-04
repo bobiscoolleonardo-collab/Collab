@@ -14,10 +14,6 @@ uniform float normalmap_b_strength : hint_range(0.0, 1.0, 0.01) = 0.25;
 uniform vec2 movement_direction = vec2(0.2, 0.1);
 uniform float movement_strength : hint_range(0.0, 1, 0.01) = 0.12;
 
-uniform vec4 wave_crest_color : source_color = vec4(0.4, 0.8, 0.9, 1.0);
-uniform float wave_crest_sharpness : hint_range(0.0, 10.0, 0.1) = 3.0;
-uniform float wave_crest_threshold : hint_range(0.0, 1.0, 0.01) = 0.6;
-
 varying float wave_height;
 
 uniform float uv_scale = 25.0;
@@ -44,13 +40,12 @@ vec3 gerstner(vec3 p, vec2 dir, float steepness, float wl) {
     float a = steepness / k;
     return vec3(
         dir.x * a * cos(f),
-                a * sin(f),
+        a * sin(f),
         dir.y * a * cos(f)
     );
 }
 
 void vertex() {
-    // work in world space, write displacement back to VERTEX
     vec3 wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
     vec3 offset = vec3(0.0);
@@ -58,10 +53,8 @@ void vertex() {
     offset += gerstner(wp, vec2( 0.3,  1.0), 0.06, 4.0);
     offset += gerstner(wp, vec2(-0.5,  0.8), 0.04, 2.5);
 
-    // add offset in local space so VERTEX stays valid
     VERTEX += (inverse(MODEL_MATRIX) * vec4(offset, 0.0)).xyz;
-	
-	wave_height = offset.y; // pass height to fragment
+    wave_height = offset.y;
 }
 
 void fragment() {
@@ -114,20 +107,10 @@ void fragment() {
 	}
 	
 	vec3 final_color = mix(depth_color, refraction_texture, water_transparentcy * depth_blend);
-	
-	// Wave crest gradient
-    float crest = smoothstep(wave_crest_threshold * 0.5, wave_crest_threshold, wave_height);
-    crest = pow(crest, wave_crest_sharpness);
-    vec3 crest_color = mix(final_color, wave_crest_color.rgb, crest * wave_crest_color.a);
 
-    ALBEDO = crest_color;
+	ALBEDO = final_color;
 	ROUGHNESS = roughness * (1.0 - basic_fresnel);
 	NORMAL_MAP = normalmap;
 	SPECULAR = specter;
 	METALLIC = metalic;
 }
-
-//void light() {
-//	// Called for every pixel for every light affecting the material.
-//	// Uncomment to replace the default light processing function with this one.
-//}

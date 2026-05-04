@@ -3,11 +3,13 @@
 [ext_resource type="Script" uid="uid://g77wxivcs805" path="res://Scripts/player.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://cfy2rghhnl1os" path="res://Scenes/fishing_rod.tscn" id="2_6t5aa"]
 [ext_resource type="Shader" uid="uid://b1e5d05gsbdsd" path="res://Shaders/Pixelation.gdshader" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://dswhxc2yynpkj" path="res://Scripts/UserInterface.gd" id="3_ukyrk"]
 [ext_resource type="Theme" uid="uid://cgfyu5a15lk7l" path="res://UI/Themes/Debug.tres" id="4_gymyn"]
 [ext_resource type="Script" uid="uid://dhvcrghyj05u7" path="res://Scripts/PlayerStates/StateMachine.gd" id="4_x3wgy"]
 [ext_resource type="Script" uid="uid://825morih6jb3" path="res://Scripts/PlayerStates/idle.gd" id="5_3smsa"]
 [ext_resource type="Script" uid="uid://hcjv1il6kgdb" path="res://Scripts/Debug.gd" id="5_pu2lt"]
 [ext_resource type="Script" uid="uid://dx58k5ortwf80" path="res://Scripts/PlayerStates/walking.gd" id="6_8erm5"]
+[ext_resource type="Texture2D" uid="uid://dxiv4ciaj1w73" path="res://Images/Hand.png" id="6_pu2lt"]
 [ext_resource type="Script" uid="uid://bg5ghk3ofs4g8" path="res://Scripts/PlayerStates/running.gd" id="7_8erm5"]
 [ext_resource type="Script" uid="uid://bqo2v0kxvqw61" path="res://Scripts/PlayerStates/jumping.gd" id="8_f1ek2"]
 [ext_resource type="Script" uid="uid://bo0w5qunldvo1" path="res://Scripts/PlayerStates/falling.gd" id="9_f1ek2"]
@@ -22,8 +24,9 @@ shader_parameter/pixel_size = 1.0
 shader_parameter/levels = 55.0
 shader_parameter/gamma = Vector2(0.125, 11)
 
-[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("neck", "camera", "hands")]
+[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "neck", "camera", "hands")]
 script = ExtResource("1_v0iea")
+ray_cast = NodePath("neck/Camera3D/InteractRayCast")
 neck = NodePath("neck")
 camera = NodePath("neck/Camera3D")
 hands = NodePath("Hands")
@@ -50,7 +53,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45556366, 0)
 
 [node name="Camera3D" type="Camera3D" parent="neck" unique_id=56609905]
 
-[node name="UserInterface" type="Control" parent="." unique_id=758524449]
+[node name="InteractRayCast" type="RayCast3D" parent="neck/Camera3D" unique_id=1160402842]
+target_position = Vector3(0, 0, -2)
+
+[node name="UserInterface" type="Control" parent="." unique_id=758524449 node_paths=PackedStringArray("interact_icon", "interact_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,6 +64,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("3_ukyrk")
+interact_icon = NodePath("InteractIcon")
+interact_label = NodePath("InteractIcon/RichTextLabel")
 
 [node name="PostProcessing" type="ColorRect" parent="UserInterface" unique_id=800061311]
 material = SubResource("ShaderMaterial_cvnsp")
@@ -85,6 +94,40 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UserInterface/DebugPanel/MarginContainer" unique_id=6309718]
 layout_mode = 2
+
+[node name="InteractIcon" type="TextureRect" parent="UserInterface" unique_id=1630715849]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -20.0
+offset_right = 112.0
+offset_bottom = 108.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("6_pu2lt")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UserInterface/InteractIcon" unique_id=1999816110]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -384.00006
+offset_top = 95.999954
+offset_right = 415.99982
+offset_bottom = 282.66656
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 128
+text = "PlaceHolder"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="StateMachine" type="Node" parent="." unique_id=1114089350 node_paths=PackedStringArray("current_state")]
 script = ExtResource("4_x3wgy")

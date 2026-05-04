@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dfo0lq3okc5ke" path="res://Scripts/cube.gd" id="3_wrm1d"]
 [ext_resource type="Texture2D" uid="uid://cw6rfh8u1og3f" path="res://Images/Water1.tres" id="5_i6g32"]
 [ext_resource type="Texture2D" uid="uid://dtlyktijrv0rf" path="res://Images/Water2.tres" id="6_1l0tm"]
+[ext_resource type="Script" uid="uid://cbcdjilq318sg" path="res://Scripts/Test_cube.gd" id="7_1l0tm"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i6g32"]
 noise_type = 3
@@ -47,7 +48,8 @@ volumetric_fog_density = 0.004
 volumetric_fog_emission_energy = 0.0
 volumetric_fog_gi_inject = 0.0
 adjustment_enabled = true
-adjustment_contrast = 1.05
+adjustment_contrast = 1.2
+adjustment_saturation = 1.4
 
 [sub_resource type="BoxMesh" id="BoxMesh_wrm1d"]
 size = Vector3(4, 1, 2)
@@ -132,6 +134,10 @@ size = Vector3(3, 0.2, 10)
 [sub_resource type="BoxShape3D" id="BoxShape3D_v158k"]
 size = Vector3(3, 0.2, 10)
 
+[sub_resource type="BoxMesh" id="BoxMesh_v158k"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_h4fw4"]
+
 [node name="Game" type="Node3D" unique_id=1711670376]
 
 [node name="Lighting" type="Node3D" parent="." unique_id=1652345042]
@@ -139,7 +145,6 @@ size = Vector3(3, 0.2, 10)
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting" unique_id=1982673979]
 transform = Transform3D(0.6150286, -0.66305155, 0.4267345, 1.4687029e-08, 0.5411947, 0.84089744, -0.78850484, -0.51717603, 0.3328502, -1.1920929e-07, 1.5319614, -4.239302)
 light_color = Color(0.8405217, 0.90653723, 1, 1)
-light_energy = 4.06
 light_angular_distance = 1.0
 shadow_enabled = true
 directional_shadow_mode = 1
@@ -262,3 +267,13 @@ mesh = SubResource("BoxMesh_i6g32")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2" unique_id=1650331903]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.613453, -17.690096)
 shape = SubResource("BoxShape3D_v158k")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="." unique_id=1454172729]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.05188, 2.4300342, -3.877676)
+script = ExtResource("7_1l0tm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3" unique_id=1545164637]
+mesh = SubResource("BoxMesh_v158k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3" unique_id=1061051260]
+shape = SubResource("BoxShape3D_h4fw4")

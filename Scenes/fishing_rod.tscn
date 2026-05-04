@@ -21,7 +21,7 @@ point1 = NodePath("Point1")
 point2 = NodePath("Point2")
 point3 = NodePath("Point3")
 sway_strength = 100.0
-damping = 1.0
+damping = 3.0
 
 [node name="Rod" type="MeshInstance3D" parent="." unique_id=1826954930]
 transform = Transform3D(7.868049e-09, 0.06, 2.2928226e-16, -2.6226832e-09, 1.1464113e-16, 0.06, 0.06, -7.868049e-09, 2.6226832e-09, 0, 0, 0)

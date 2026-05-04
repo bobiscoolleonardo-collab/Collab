@@ -4,6 +4,9 @@ var walk_speed = 5.0
 var sprint_speed = 7.0
 var jump_velocity = 4.5
 
+@export var ray_cast : RayCast3D
+var current_interactable : Interactable = null
+
 var bob_time := 0.0
 var idle_bob_speed := 3.0
 var idle_bob_amount := 0.03
@@ -70,7 +73,13 @@ func _unhandled_input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	is_moving = false
 	is_sprinting = false
-
+	
+	_check_interactable()
+	
+	if Input.is_action_just_pressed("interact"):
+		if current_interactable:
+			current_interactable.interact()
+	
 	camera.rotation.z = lerp(camera.rotation.z, clamp(-mouse_delta.x * delta * sway_amount * 0.001, -0.9, 0.9), delta * sway_smooth)
 	mouse_delta = Vector2.ZERO
 	camera.rotation.z = lerp(camera.rotation.z, target_roll, delta * sway_smooth)
@@ -108,11 +117,39 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	camera_bob(delta)
 
+func _find_interactable(node: Node) -> Interactable:
+	# Only walk UP the parent tree from the hit node
+	while node:
+		if node is Interactable:
+			return node
+		node = node.get_parent()
+	return null
+
+func _check_interactable() -> void:
+	if ray_cast.is_colliding():
+		var collider = ray_cast.get_collider()
+		var interactable = _find_interactable(collider)
+
+		if interactable:
+			if interactable != current_interactable:
+				current_interactable = interactable
+				global.ui.set_interact_visible(true, interactable.interact_label)
+			return
+
+	if current_interactable:
+		current_interactable = null
+		global.ui.set_interact_visible(false)
+	
+	# Nothing interactable found
+	if current_interactable:
+		current_interactable = null
+		global.ui.set_interact_visible(false)
+
 func camera_bob(delta: float) -> void:
 	var on_floor_moving = is_on_floor() and is_moving
 	bob_time += delta * ((17.0 if is_sprinting else 12.0) if on_floor_moving else idle_bob_speed)
-	if is_on_floor() and velocity_y_last < -1.0:
-		landing_offset = 0.12
+	if is_on_floor() and velocity_y_last < -3.5:
+		landing_offset = 0.3
 	velocity_y_last = velocity.y
 	landing_offset = lerp(landing_offset, 0.0, delta * 8.0)
 	var bob := sin(bob_time) * ((0.04 if is_sprinting else 0.03) if on_floor_moving else idle_bob_amount)
