@@ -32,15 +32,17 @@ var line := MeshInstance3D.new()
 func _ready():
 	last_yaw = camera.global_rotation.y
 	
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
-	mat.albedo_color = Color(0.8, 0.8, 0.8)
+	var shader := preload("res://Shaders/Line_Shader.gdshader")
+	var mat := ShaderMaterial.new()
+	mat.shader = shader
+	line.material_override = mat
 	
 	line.top_level = true
 	line.global_transform = Transform3D.IDENTITY
 	line.mesh = line_mesh
 	line.material_override = mat
 	line.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	
 	add_child(line)
 
 

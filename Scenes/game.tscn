@@ -71,9 +71,6 @@ shader_parameter/normalmap_a_strength = 0.5
 shader_parameter/normalmap_b_strength = 0.25
 shader_parameter/movement_direction = Vector2(0.4, 0.3)
 shader_parameter/movement_strength = 0.12
-shader_parameter/wave_crest_color = Color(0.0694406, 0.09751917, 0.29804215, 1)
-shader_parameter/wave_crest_sharpness = 0.10000000149012
-shader_parameter/wave_crest_threshold = 0.06999999843536
 shader_parameter/uv_scale = 25.0
 shader_parameter/depth_distance = 10.000000149012
 shader_parameter/beers_law = 12.0
@@ -271,6 +268,7 @@ shape = SubResource("BoxShape3D_v158k")
 [node name="StaticBody3D3" type="StaticBody3D" parent="." unique_id=1454172729]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.05188, 2.4300342, -3.877676)
 script = ExtResource("7_1l0tm")
+interact_label = "Press me Cutie"
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D3" unique_id=1545164637]
 mesh = SubResource("BoxMesh_v158k")

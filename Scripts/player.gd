@@ -133,7 +133,7 @@ func _check_interactable() -> void:
 		if interactable:
 			if interactable != current_interactable:
 				current_interactable = interactable
-				global.ui.set_interact_visible(true, interactable.interact_label)
+				global.ui.set_interact_visible(true)
 			return
 
 	if current_interactable:

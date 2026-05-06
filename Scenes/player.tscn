@@ -66,7 +66,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_ukyrk")
 interact_icon = NodePath("InteractIcon")
-interact_label = NodePath("InteractIcon/RichTextLabel")
+interact_label = NodePath("")
 
 [node name="PostProcessing" type="ColorRect" parent="UserInterface" unique_id=800061311]
 material = SubResource("ShaderMaterial_cvnsp")
@@ -102,32 +102,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -20.0
-offset_right = 112.0
-offset_bottom = 108.0
+offset_left = -40.0
+offset_top = -38.0
+offset_right = 88.0
+offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.3, 0.3)
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("6_pu2lt")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="UserInterface/InteractIcon" unique_id=1999816110]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -384.00006
-offset_top = 95.999954
-offset_right = 415.99982
-offset_bottom = 282.66656
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/normal_font_size = 128
-text = "PlaceHolder"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="StateMachine" type="Node" parent="." unique_id=1114089350 node_paths=PackedStringArray("current_state")]
 script = ExtResource("4_x3wgy")
