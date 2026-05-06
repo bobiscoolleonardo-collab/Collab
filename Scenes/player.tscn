@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://g77wxivcs805" path="res://Scripts/player.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://cfy2rghhnl1os" path="res://Scenes/fishing_rod.tscn" id="2_6t5aa"]
 [ext_resource type="Shader" uid="uid://b1e5d05gsbdsd" path="res://Shaders/Pixelation.gdshader" id="2_cvnsp"]
+[ext_resource type="Shader" path="res://Shaders/UnderwaterPostProcessing.gdshader" id="3_1pmhq"]
 [ext_resource type="Script" uid="uid://dswhxc2yynpkj" path="res://Scripts/UserInterface.gd" id="3_ukyrk"]
 [ext_resource type="Theme" uid="uid://cgfyu5a15lk7l" path="res://UI/Themes/Debug.tres" id="4_gymyn"]
 [ext_resource type="Script" uid="uid://dhvcrghyj05u7" path="res://Scripts/PlayerStates/StateMachine.gd" id="4_x3wgy"]
@@ -24,9 +25,19 @@ shader_parameter/pixel_size = 1.0
 shader_parameter/levels = 55.0
 shader_parameter/gamma = Vector2(0.125, 11)
 
-[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "neck", "camera", "hands")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1pmhq"]
+shader = ExtResource("3_1pmhq")
+shader_parameter/strength = 0.0
+shader_parameter/water_tint = Color(0.02, 0.22, 0.3, 1)
+shader_parameter/tint_strength = 0.45
+shader_parameter/distortion_strength = 0.012
+shader_parameter/caustic_strength = 0.16
+shader_parameter/edge_darkness = 0.35
+
+[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "underwater_overlay", "neck", "camera", "hands")]
 script = ExtResource("1_v0iea")
 ray_cast = NodePath("neck/Camera3D/InteractRayCast")
+underwater_overlay = NodePath("UserInterface/UnderwaterPostProcessing")
 neck = NodePath("neck")
 camera = NodePath("neck/Camera3D")
 hands = NodePath("Hands")
@@ -70,6 +81,17 @@ interact_label = NodePath("")
 
 [node name="PostProcessing" type="ColorRect" parent="UserInterface" unique_id=800061311]
 material = SubResource("ShaderMaterial_cvnsp")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UnderwaterPostProcessing" type="ColorRect" parent="UserInterface" unique_id=914320721]
+visible = false
+material = SubResource("ShaderMaterial_1pmhq")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

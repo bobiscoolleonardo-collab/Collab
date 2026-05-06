@@ -222,7 +222,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9232683, -0.53777933, -0.94
 [node name="player" parent="." unique_id=298331612 instance=ExtResource("1_ebmjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8017867, 0)
 
-[node name="water" type="MeshInstance3D" parent="." unique_id=1268632989]
+[node name="water" type="MeshInstance3D" parent="." unique_id=1268632989 groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4070902, 0.40032053)
 material_override = SubResource("ShaderMaterial_i6g32")
 extra_cull_margin = 16384.0

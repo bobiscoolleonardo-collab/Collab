@@ -1,40 +1,33 @@
 extends RigidBody3D
 
-const WAVES := [
-	{ "dir": Vector2(1.0,  0.3), "steepness": 0.08, "wl": 6.0 },
-	{ "dir": Vector2(0.3,  1.0), "steepness": 0.06, "wl": 4.0 },
-	{ "dir": Vector2(-0.5, 0.8), "steepness": 0.04, "wl": 2.5 },
-]
-
 @export var float_strength      := 20.0
 @export var max_depth           := 2.0
 @export var water_drag          := 0.2
 @export var water_angular_drag  := 0.4
+@export var water: Node3D
+@export var water_size := Vector2(100.0, 100.0)
 
 @onready var float_points = $FloatPoints.get_children()
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var submerged := false
 
-func gerstner(p: Vector3, dir: Vector2, steepness: float, wl: float) -> Vector3:
-	dir = dir.normalized()
-	var k := 2.0 * PI / wl
-	var c := sqrt(9.8 / k)
-	var f := k * (dir.dot(Vector2(p.x, p.z)) - c * Time.get_ticks_msec() / 1000.0)
-	var a := steepness / k
-	return Vector3(dir.x * a * cos(f), a * sin(f), dir.y * a * cos(f))
-
-func get_wave_height(world_pos: Vector3) -> float:
-	var offset := Vector3.ZERO
-	for w in WAVES:
-		offset += gerstner(world_pos, w["dir"], w["steepness"], w["wl"])
-	return offset.y
+func _ready() -> void:
+	water = _find_water()
 
 func _physics_process(_delta):
+	if water == null:
+		water = _find_water()
+	if water == null:
+		return
+
 	submerged = false
 	for point in float_points:
 		var world_pos: Vector3 = point.global_transform.origin
-		var surface_y := get_wave_height(world_pos)
+		if not WaterSurface.is_position_over_water(world_pos, water, water_size):
+			continue
+
+		var surface_y := WaterSurface.get_surface_y(world_pos, water)
 		var depth := surface_y - world_pos.y - 0.7
 		if depth > 0.0:
 			submerged = true
@@ -49,3 +42,15 @@ func _integrate_forces(state):
 	if submerged:
 		state.linear_velocity  = state.linear_velocity.lerp(Vector3.ZERO, water_drag)
 		state.angular_velocity = state.angular_velocity.lerp(Vector3.ZERO, water_angular_drag)
+
+func _find_water() -> Node3D:
+	var grouped := get_tree().get_first_node_in_group("water")
+	if grouped is Node3D:
+		return grouped
+
+	if get_tree().current_scene:
+		var named := get_tree().current_scene.find_child("water", true, false)
+		if named is Node3D:
+			return named
+
+	return null
