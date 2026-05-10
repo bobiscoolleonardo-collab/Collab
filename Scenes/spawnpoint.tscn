@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://ca6ndsmq0xm5s"]
+
+[ext_resource type="Texture2D" uid="uid://cxmlfsyaqhhe0" path="res://Images/Spawnpoint Icon.png" id="1_o52c7"]
+
+[node name="Spawnpoint" type="Node3D" unique_id=845859994]
+
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=92663264]
+billboard = 1
+texture_filter = 2
+texture = ExtResource("1_o52c7")

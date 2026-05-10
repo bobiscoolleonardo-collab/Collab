@@ -4,10 +4,10 @@
 [ext_resource type="Shader" uid="uid://b0oqjuko778ti" path="res://Shaders/NightSky.gdshader" id="1_wrm1d"]
 [ext_resource type="Shader" uid="uid://b6b10dnvdiud3" path="res://Shaders/Water.gdshader" id="3_3dryh"]
 [ext_resource type="Script" uid="uid://dfo0lq3okc5ke" path="res://Scripts/cube.gd" id="3_wrm1d"]
-[ext_resource type="Texture2D" uid="uid://cw6rfh8u1og3f" path="res://Images/Water1.tres" id="5_i6g32"]
-[ext_resource type="Texture2D" uid="uid://dtlyktijrv0rf" path="res://Images/Water2.tres" id="6_1l0tm"]
 [ext_resource type="Script" uid="uid://cbcdjilq318sg" path="res://Scripts/Test_cube.gd" id="7_1l0tm"]
+[ext_resource type="PackedScene" uid="uid://ca6ndsmq0xm5s" path="res://Scenes/spawnpoint.tscn" id="7_h4fw4"]
 [ext_resource type="Script" uid="uid://btfyvfee70oxk" path="res://Scripts/Water.gd" id="7_v158k"]
+[ext_resource type="PackedScene" uid="uid://6ibp8sng23yc" path="res://Scenes/boat.tscn" id="8_v158k"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i6g32"]
 noise_type = 3
@@ -50,7 +50,7 @@ volumetric_fog_emission_energy = 0.0
 volumetric_fog_gi_inject = 0.0
 adjustment_enabled = true
 adjustment_contrast = 1.2
-adjustment_saturation = 1.4
+adjustment_saturation = 2.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_wrm1d"]
 size = Vector3(4, 1, 2)
@@ -66,8 +66,6 @@ shader_parameter/secondary_color = Color(0.00032899776, 0.05757188, 0.3170711, 1
 shader_parameter/roughness = 0.3999999910592
 shader_parameter/specter = 0.3999999910592
 shader_parameter/metalic = 0.1999999955296
-shader_parameter/normalmap_a = ExtResource("5_i6g32")
-shader_parameter/normalmap_b = ExtResource("6_1l0tm")
 shader_parameter/normalmap_a_strength = 0.5
 shader_parameter/normalmap_b_strength = 0.25
 shader_parameter/movement_direction = Vector2(0.4, 0.3)
@@ -80,7 +78,7 @@ shader_parameter/refraction_strength = 0.5
 shader_parameter/foam_color = Color(0.8, 0.95, 1, 1)
 shader_parameter/foam_width = 0.0499999988824
 shader_parameter/foam_softness = 0.10999999754128
-shader_parameter/foam_strength = 0.999999977648
+shader_parameter/foam_strength = 0.30999999307088
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1l0tm"]
 size = Vector2(100, 100)
@@ -161,6 +159,10 @@ size = Vector3(3, 0.2, 10)
 [sub_resource type="BoxMesh" id="BoxMesh_v158k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_h4fw4"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_i6g32"]
+radius = 5.0
+height = 10.0
 
 [node name="Game" type="Node3D" unique_id=1711670376]
 
@@ -247,8 +249,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9232683, -0.53777933, 0.954
 [node name="Marker3D9" type="Marker3D" parent="Sphere/FloatPoints" unique_id=1891925672]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9232683, -0.53777933, -0.949584)
 
-[node name="player" parent="." unique_id=298331612 instance=ExtResource("1_ebmjs")]
+[node name="player" parent="." unique_id=298331612 node_paths=PackedStringArray("spawn_point") instance=ExtResource("1_ebmjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8017867, 0)
+spawn_point = NodePath("../Spawnpoint")
 
 [node name="water" type="MeshInstance3D" parent="." unique_id=1268632989 groups=["water"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4070902, 0.40032053)
@@ -305,3 +308,14 @@ mesh = SubResource("BoxMesh_v158k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D3" unique_id=1061051260]
 shape = SubResource("BoxShape3D_h4fw4")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1015023342]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.482678, -0.4070902, -39.936584)
+mesh = SubResource("SphereMesh_i6g32")
+
+[node name="Spawnpoint" parent="." unique_id=845859994 instance=ExtResource("7_h4fw4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.980027, 10.471184)
+
+[node name="RigidBody3D" parent="." unique_id=188616958 node_paths=PackedStringArray("water") instance=ExtResource("8_v158k")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 28.618687, 1.8512578, 0)
+water = NodePath("../water")

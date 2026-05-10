@@ -17,6 +17,9 @@ var sway_amount :=  200.0
 var sway_smooth := 10.0
 var target_roll := 0.0
 
+@export var spawn_point: Node3D
+var spawn_point_pos: Vector3
+
 var is_moving
 var is_sprinting
 var movement_speed
@@ -32,6 +35,12 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready() -> void:
 	global.player = self
+	if spawn_point == null:
+		return
+	else:
+		global_position = spawn_point.global_position
+		spawn_point_pos = global_position
+		spawn_point.queue_free() 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://g77wxivcs805" path="res://Scripts/player.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://cfy2rghhnl1os" path="res://Scenes/fishing_rod.tscn" id="2_6t5aa"]
 [ext_resource type="Shader" uid="uid://b1e5d05gsbdsd" path="res://Shaders/Pixelation.gdshader" id="2_cvnsp"]
-[ext_resource type="Shader" path="res://Shaders/UnderwaterPostProcessing.gdshader" id="3_1pmhq"]
+[ext_resource type="Shader" uid="uid://d2t5tk3wbsbn" path="res://Shaders/UnderwaterPostProcessing.gdshader" id="3_1pmhq"]
 [ext_resource type="Script" uid="uid://dswhxc2yynpkj" path="res://Scripts/UserInterface.gd" id="3_ukyrk"]
 [ext_resource type="Theme" uid="uid://cgfyu5a15lk7l" path="res://UI/Themes/Debug.tres" id="4_gymyn"]
 [ext_resource type="Script" uid="uid://dhvcrghyj05u7" path="res://Scripts/PlayerStates/StateMachine.gd" id="4_x3wgy"]
@@ -34,10 +34,9 @@ shader_parameter/distortion_strength = 0.012
 shader_parameter/caustic_strength = 0.16
 shader_parameter/edge_darkness = 0.35
 
-[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "underwater_overlay", "neck", "camera", "hands")]
+[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "neck", "camera", "hands")]
 script = ExtResource("1_v0iea")
 ray_cast = NodePath("neck/Camera3D/InteractRayCast")
-underwater_overlay = NodePath("UserInterface/UnderwaterPostProcessing")
 neck = NodePath("neck")
 camera = NodePath("neck/Camera3D")
 hands = NodePath("Hands")
@@ -67,7 +66,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45556366, 0)
 [node name="InteractRayCast" type="RayCast3D" parent="neck/Camera3D" unique_id=1160402842]
 target_position = Vector3(0, 0, -2)
 
-[node name="UserInterface" type="Control" parent="." unique_id=758524449 node_paths=PackedStringArray("interact_icon", "interact_label")]
+[node name="UserInterface" type="Control" parent="." unique_id=758524449 node_paths=PackedStringArray("interact_icon")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,7 +76,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_ukyrk")
 interact_icon = NodePath("InteractIcon")
-interact_label = NodePath("")
 
 [node name="PostProcessing" type="ColorRect" parent="UserInterface" unique_id=800061311]
 material = SubResource("ShaderMaterial_cvnsp")
