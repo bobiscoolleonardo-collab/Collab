@@ -27,6 +27,12 @@ uniform float water_transparentcy : hint_range(0.0, 1.0, 0.01) = 0.5;
 
 uniform float refraction_strength : hint_range(0.0, 8.0, 0.001) = 0.5;
 
+uniform vec4 foam_color : source_color = vec4(0.8, 0.95, 1.0, 1.0);
+uniform float foam_width : hint_range(0.0, 5.0, 0.01) = 0.45;
+uniform float foam_softness : hint_range(0.0, 1.0, 0.01) = 0.03;
+uniform float foam_strength : hint_range(0.0, 1.0, 0.01) = 1.0;
+
+
 float fresnel(float amount, vec3 normal, vec3 view)
 {
 	return pow((1.0 - clamp(dot(normalize(normal), normalize(view)), 0.0, 1.0)), amount);
@@ -93,6 +99,25 @@ void fragment() {
 	float depth_texture_y = world.y / world.w;
 	float vertex_y = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).y;
 	
+	vec4 foam_world = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(ndc_clean, 1.0);
+	float foam_depth_y = foam_world.y / foam_world.w;
+
+	float water_depth = vertex_y - foam_depth_y;
+
+	float foam_mask = 1.0 - smoothstep(
+		foam_width,
+		foam_width + foam_softness,
+		water_depth
+	);
+
+	foam_mask = clamp(foam_mask, 0.0, 1.0);
+
+	if (linear_depth < 0.00001) {
+		foam_mask = 0.0;
+	}
+
+
+	
 	float depth_blend = clamp((vertex_y - depth_texture_y) / depth_distance, 0.0, 1.0);
 	depth_blend = exp(-depth_blend * beers_law);
 	
@@ -107,7 +132,8 @@ void fragment() {
 	}
 	
 	vec3 final_color = mix(depth_color, refraction_texture, water_transparentcy * depth_blend);
-
+	final_color = mix(final_color, foam_color.rgb, foam_mask * foam_strength);
+	
 	ALBEDO = final_color;
 	ROUGHNESS = roughness * (1.0 - basic_fresnel);
 	NORMAL_MAP = normalmap;

@@ -1,5 +1,3 @@
-# interactable.gd
-# Attach this to any object you want to be interactable
 class_name Interactable
 extends Node
 

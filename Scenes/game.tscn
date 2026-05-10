@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cw6rfh8u1og3f" path="res://Images/Water1.tres" id="5_i6g32"]
 [ext_resource type="Texture2D" uid="uid://dtlyktijrv0rf" path="res://Images/Water2.tres" id="6_1l0tm"]
 [ext_resource type="Script" uid="uid://cbcdjilq318sg" path="res://Scripts/Test_cube.gd" id="7_1l0tm"]
+[ext_resource type="Script" uid="uid://btfyvfee70oxk" path="res://Scripts/Water.gd" id="7_v158k"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i6g32"]
 noise_type = 3
@@ -76,11 +77,37 @@ shader_parameter/depth_distance = 10.000000149012
 shader_parameter/beers_law = 12.0
 shader_parameter/water_transparentcy = 0.5
 shader_parameter/refraction_strength = 0.5
+shader_parameter/foam_color = Color(0.8, 0.95, 1, 1)
+shader_parameter/foam_width = 0.0499999988824
+shader_parameter/foam_softness = 0.10999999754128
+shader_parameter/foam_strength = 0.999999977648
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1l0tm"]
 size = Vector2(100, 100)
 subdivide_width = 100
 subdivide_depth = 100
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h4fw4"]
+render_priority = 0
+shader = ExtResource("3_3dryh")
+shader_parameter/primary_color = Color(0, 0, 0, 1)
+shader_parameter/secondary_color = Color(0, 0, 0, 1)
+shader_parameter/roughness = 0.4
+shader_parameter/specter = 1.0
+shader_parameter/metalic = 0.4
+shader_parameter/normalmap_a_strength = 0.5
+shader_parameter/normalmap_b_strength = 0.25
+shader_parameter/movement_direction = Vector2(0.2, 0.1)
+shader_parameter/movement_strength = 0.12
+shader_parameter/uv_scale = 25.0
+shader_parameter/depth_distance = 7.5
+shader_parameter/beers_law = 12.0
+shader_parameter/water_transparentcy = 0.5
+shader_parameter/refraction_strength = 0.5
+shader_parameter/foam_color = Color(0.8, 0.95, 1, 1)
+shader_parameter/foam_width = 0.45
+shader_parameter/foam_softness = 0.03
+shader_parameter/foam_strength = 1.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_3dryh"]
 
@@ -179,10 +206,11 @@ light_energy = 1.5
 light_volumetric_fog_energy = 0.5
 omni_range = 6.2528315
 
-[node name="Sphere" type="RigidBody3D" parent="." unique_id=2111528935]
+[node name="Sphere" type="RigidBody3D" parent="." unique_id=2111528935 node_paths=PackedStringArray("water")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7353401, 3.9441233, -38.755157)
-mass = 4.0
+mass = 10.0
 script = ExtResource("3_wrm1d")
+water = NodePath("../water")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere" unique_id=180927852]
 mesh = SubResource("BoxMesh_wrm1d")
@@ -227,6 +255,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4070902, 0.40032053)
 material_override = SubResource("ShaderMaterial_i6g32")
 extra_cull_margin = 16384.0
 mesh = SubResource("PlaneMesh_1l0tm")
+script = ExtResource("7_v158k")
+shader_material = SubResource("ShaderMaterial_h4fw4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1768421082]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8628092, 12.013616)
