@@ -50,7 +50,6 @@ func _ready() -> void:
 		global_position = spawn_point.global_position
 		spawn_point_pos = global_position
 		spawn_point.queue_free()
-	camera_component.shake(10.0, 0.06, 0.03, 28.0)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -65,6 +64,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			pitch -= event.relative.y * sensitivity
 			pitch = clamp(pitch, deg_to_rad(-89), deg_to_rad(89))
 			camera.rotation.x = pitch
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("reset"):
+		global_position = spawn_point_pos
 
 func _physics_process(delta: float) -> void:
 	is_moving = false

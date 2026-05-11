@@ -5,10 +5,6 @@ extends MeshInstance3D
 
 var water_time := 0.0
 
-func _ready() -> void:
-	pass
-
-
 func _process(delta: float) -> void:
 	water_time += delta
 

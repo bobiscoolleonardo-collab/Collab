@@ -21,6 +21,9 @@ var _shake_position_strength := 0.0
 var _shake_rotation_strength := 0.0
 var _shake_frequency := 28.0
 var _shake_seed := 0.0
+var _shake_returning := false
+var _shake_return_speed := 12.0
+
 
 var _shake_base_position := Vector3.ZERO
 var _shake_base_rotation := Vector3.ZERO
@@ -40,7 +43,7 @@ func release() -> void:
 	active = false
 	look_ended.emit()
 
-func shake(duration := 0.25, position_strength := 0.06, rotation_strength := 0.03, frequency := 28.0) -> void:
+func shake(duration := 0.25, position_strength := 0.06, rotation_strength := 0.03, frequency := 28.0, return_speed := 12.0) -> void:
 	if not shake_pivot:
 		push_warning("CameraComponent needs a shake_pivot Node3D assigned.")
 		return
@@ -50,9 +53,12 @@ func shake(duration := 0.25, position_strength := 0.06, rotation_strength := 0.0
 	_shake_position_strength = position_strength
 	_shake_rotation_strength = rotation_strength
 	_shake_frequency = frequency
+	_shake_return_speed = return_speed
 	_shake_seed = randf() * TAU
+	_shake_returning = false
 
 	shake_started.emit()
+
 
 func update(delta: float, current_pitch: float, sway_smooth: float) -> float:
 	var new_pitch := current_pitch
@@ -99,33 +105,37 @@ func _update_shake(delta: float) -> void:
 	if not shake_pivot:
 		return
 
-	if _shake_time_left <= 0.0:
-		shake_pivot.position = _shake_base_position
-		shake_pivot.rotation = _shake_base_rotation
+	if _shake_time_left > 0.0:
+		_shake_time_left = max(_shake_time_left - delta, 0.0)
+
+		var t := (_shake_duration - _shake_time_left) * _shake_frequency
+
+		var position_offset := Vector3(
+			sin(t * 1.1 + _shake_seed),
+			sin(t * 1.4 + _shake_seed * 2.0),
+			0.0
+		) * _shake_position_strength
+
+		var rotation_offset := Vector3(
+			sin(t * 1.7 + _shake_seed * 3.0),
+			sin(t * 2.0 + _shake_seed * 4.0),
+			sin(t * 2.4 + _shake_seed * 5.0)
+		) * _shake_rotation_strength
+
+		shake_pivot.position = _shake_base_position + position_offset
+		shake_pivot.rotation = _shake_base_rotation + rotation_offset
+
+		if _shake_time_left <= 0.0:
+			_shake_returning = true
+
 		return
 
-	_shake_time_left = max(_shake_time_left - delta, 0.0)
+	if _shake_returning:
+		shake_pivot.position = shake_pivot.position.lerp(_shake_base_position, delta * _shake_return_speed)
+		shake_pivot.rotation = shake_pivot.rotation.lerp(_shake_base_rotation, delta * _shake_return_speed)
 
-	var fade := _shake_time_left / _shake_duration
-	var amount := fade * fade
-	var t := (_shake_duration - _shake_time_left) * _shake_frequency
-
-	var position_offset := Vector3(
-		sin(t * 1.1 + _shake_seed),
-		sin(t * 1.4 + _shake_seed * 2.0),
-		0.0
-	) * _shake_position_strength * amount
-
-	var rotation_offset := Vector3(
-		sin(t * 1.7 + _shake_seed * 3.0),
-		sin(t * 2.0 + _shake_seed * 4.0),
-		sin(t * 2.4 + _shake_seed * 5.0)
-	) * _shake_rotation_strength * amount
-
-	shake_pivot.position = _shake_base_position + position_offset
-	shake_pivot.rotation = _shake_base_rotation + rotation_offset
-
-	if _shake_time_left <= 0.0:
-		shake_pivot.position = _shake_base_position
-		shake_pivot.rotation = _shake_base_rotation
-		shake_ended.emit()
+		if shake_pivot.position.distance_to(_shake_base_position) < 0.001 and shake_pivot.rotation.distance_to(_shake_base_rotation) < 0.001:
+			shake_pivot.position = _shake_base_position
+			shake_pivot.rotation = _shake_base_rotation
+			_shake_returning = false
+			shake_ended.emit()

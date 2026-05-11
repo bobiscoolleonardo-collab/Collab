@@ -318,4 +318,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.980027, 10.471184)
 
 [node name="RigidBody3D" parent="." unique_id=188616958 node_paths=PackedStringArray("water") instance=ExtResource("8_v158k")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 28.618687, 1.8512578, 0)
+max_depth = 1.0
 water = NodePath("../water")

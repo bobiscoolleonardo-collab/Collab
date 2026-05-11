@@ -14,6 +14,8 @@
 [ext_resource type="Script" uid="uid://bg5ghk3ofs4g8" path="res://Scripts/PlayerStates/running.gd" id="7_8erm5"]
 [ext_resource type="Script" uid="uid://bqo2v0kxvqw61" path="res://Scripts/PlayerStates/jumping.gd" id="8_f1ek2"]
 [ext_resource type="Script" uid="uid://bo0w5qunldvo1" path="res://Scripts/PlayerStates/falling.gd" id="9_f1ek2"]
+[ext_resource type="Texture2D" uid="uid://c0lkje3nngnne" path="res://Images/Hand2.png" id="9_qqcod"]
+[ext_resource type="Texture2D" uid="uid://cccw6gk00ewil" path="res://Images/Hand1.png" id="10_igrcy"]
 [ext_resource type="Script" uid="uid://drjk75mc6len" path="res://Scripts/CameraComponent.gd" id="15_h4iuc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cvnsp"]
@@ -34,6 +36,28 @@ shader_parameter/tint_strength = 0.45
 shader_parameter/distortion_strength = 0.012
 shader_parameter/caustic_strength = 0.16
 shader_parameter/edge_darkness = 0.35
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fs7ks"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_pu2lt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_qqcod")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_igrcy")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
 
 [node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "camera_component", "neck", "camera", "hands")]
 script = ExtResource("1_v0iea")
@@ -79,7 +103,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_ukyrk")
-interact_icon = NodePath("InteractIcon")
+interact_icon = NodePath("Control/AnimatedSprite2D")
 
 [node name="PostProcessing" type="ColorRect" parent="UserInterface" unique_id=800061311]
 material = SubResource("ShaderMaterial_cvnsp")
@@ -119,21 +143,24 @@ layout_mode = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="UserInterface/DebugPanel/MarginContainer" unique_id=6309718]
 layout_mode = 2
 
-[node name="InteractIcon" type="TextureRect" parent="UserInterface" unique_id=1630715849]
+[node name="Control" type="Control" parent="UserInterface" unique_id=447679479]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -38.0
-offset_right = 88.0
-offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UserInterface/Control" unique_id=1422375471]
+texture_filter = 1
+position = Vector2(-3, 2)
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("6_pu2lt")
+sprite_frames = SubResource("SpriteFrames_fs7ks")
+animation = &"new_animation"
+frame_progress = 0.034226872
+speed_scale = 0.8
 
 [node name="StateMachine" type="Node" parent="." unique_id=1114089350 node_paths=PackedStringArray("current_state")]
 script = ExtResource("4_x3wgy")
