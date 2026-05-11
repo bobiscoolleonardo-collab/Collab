@@ -17,12 +17,20 @@ var sway_amount :=  200.0
 var sway_smooth := 10.0
 var target_roll := 0.0
 
+var auto_look_enabled := false
+var auto_look_point := Vector3.ZERO
+var auto_look_speed := 6.0
+
+
 @export var spawn_point: Node3D
 var spawn_point_pos: Vector3
 
 var is_moving
 var is_sprinting
 var movement_speed
+
+@export var camera_component: CameraComponent
+
 
 var pitch := 0.0
 var sensitivity := 0.01
@@ -34,20 +42,22 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var hands : Node3D
 
 func _ready() -> void:
+	await owner.ready
 	global.player = self
 	if spawn_point == null:
 		return
 	else:
 		global_position = spawn_point.global_position
 		spawn_point_pos = global_position
-		spawn_point.queue_free() 
+		spawn_point.queue_free()
+	camera_component.shake(10.0, 0.06, 0.03, 28.0)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and not camera_component.active:
 		if event is InputEventMouseMotion:
 			mouse_delta += event.relative
 			neck.rotate_y(-event.relative.x * sensitivity)
@@ -66,9 +76,14 @@ func _physics_process(delta: float) -> void:
 		if current_interactable:
 			current_interactable.interact()
 	
-	camera.rotation.z = lerp(camera.rotation.z, clamp(-mouse_delta.x * delta * sway_amount * 0.001, -0.9, 0.9), delta * sway_smooth)
-	mouse_delta = Vector2.ZERO
-	camera.rotation.z = lerp(camera.rotation.z, target_roll, delta * sway_smooth)
+	if camera_component.active:
+		pitch = camera_component.update(delta, pitch, sway_smooth)
+		mouse_delta = Vector2.ZERO
+	else:
+		camera.rotation.z = lerp(camera.rotation.z, clamp(-mouse_delta.x * delta * sway_amount * 0.001, -0.9, 0.9), delta * sway_smooth)
+		mouse_delta = Vector2.ZERO
+		camera.rotation.z = lerp(camera.rotation.z, target_roll, delta * sway_smooth)
+
 	is_sprinting = Input.is_action_pressed("sprint")
 	movement_speed = sprint_speed if is_sprinting else walk_speed
 
@@ -92,6 +107,10 @@ func _physics_process(delta: float) -> void:
 	target_roll = lerp(target_roll, 0.0, delta * 5.0)
 	move_and_slide()
 	camera_bob(delta)
+
+	if camera_component:
+		pitch = camera_component.update(delta, pitch, sway_smooth)
+
 
 func _find_interactable(node: Node) -> Interactable:
 	# Only walk UP the parent tree from the hit node
@@ -130,3 +149,4 @@ func camera_bob(delta: float) -> void:
 	landing_offset = lerp(landing_offset, 0.0, delta * 8.0)
 	var bob := sin(bob_time) * ((0.04 if is_sprinting else 0.03) if on_floor_moving else idle_bob_amount)
 	camera.position.y = lerp(camera.position.y, base_height + bob - landing_offset, delta * 10.0)
+	

@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://bg5ghk3ofs4g8" path="res://Scripts/PlayerStates/running.gd" id="7_8erm5"]
 [ext_resource type="Script" uid="uid://bqo2v0kxvqw61" path="res://Scripts/PlayerStates/jumping.gd" id="8_f1ek2"]
 [ext_resource type="Script" uid="uid://bo0w5qunldvo1" path="res://Scripts/PlayerStates/falling.gd" id="9_f1ek2"]
+[ext_resource type="Script" uid="uid://drjk75mc6len" path="res://Scripts/CameraComponent.gd" id="15_h4iuc"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cvnsp"]
 
@@ -34,11 +35,12 @@ shader_parameter/distortion_strength = 0.012
 shader_parameter/caustic_strength = 0.16
 shader_parameter/edge_darkness = 0.35
 
-[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "neck", "camera", "hands")]
+[node name="player" type="CharacterBody3D" unique_id=298331612 node_paths=PackedStringArray("ray_cast", "camera_component", "neck", "camera", "hands")]
 script = ExtResource("1_v0iea")
-ray_cast = NodePath("neck/Camera3D/InteractRayCast")
+ray_cast = NodePath("neck/ShakePivot/Camera3D/InteractRayCast")
+camera_component = NodePath("Node")
 neck = NodePath("neck")
-camera = NodePath("neck/Camera3D")
+camera = NodePath("neck/ShakePivot/Camera3D")
 hands = NodePath("Hands")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=626068656]
@@ -55,15 +57,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45480645, -0.81446767, -0.4
 
 [node name="FishingRod" parent="Hands/Placement" unique_id=69697877 node_paths=PackedStringArray("camera") instance=ExtResource("2_6t5aa")]
 transform = Transform3D(1, 0, 0, 0, 0.9761219, 0.21722336, 0, -0.21722336, 0.9761219, 0, 0, 0)
-camera = NodePath("../../../neck/Camera3D")
+camera = NodePath("../../../neck/ShakePivot/Camera3D")
 sway_strength = 0.2
 
 [node name="neck" type="Node3D" parent="." unique_id=2127024264]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45556366, 0)
 
-[node name="Camera3D" type="Camera3D" parent="neck" unique_id=56609905]
+[node name="ShakePivot" type="Node3D" parent="neck" unique_id=1468039172]
 
-[node name="InteractRayCast" type="RayCast3D" parent="neck/Camera3D" unique_id=1160402842]
+[node name="Camera3D" type="Camera3D" parent="neck/ShakePivot" unique_id=56609905]
+
+[node name="InteractRayCast" type="RayCast3D" parent="neck/ShakePivot/Camera3D" unique_id=1160402842]
 target_position = Vector3(0, 0, -2)
 
 [node name="UserInterface" type="Control" parent="." unique_id=758524449 node_paths=PackedStringArray("interact_icon")]
@@ -155,3 +159,10 @@ metadata/_custom_type_script = "uid://bqyadyjqf8i0"
 [node name="Falling" type="Node" parent="StateMachine" unique_id=718565160]
 script = ExtResource("9_f1ek2")
 metadata/_custom_type_script = "uid://bqyadyjqf8i0"
+
+[node name="Node" type="Node" parent="." unique_id=1114182413 node_paths=PackedStringArray("neck", "camera", "hands", "shake_pivot")]
+script = ExtResource("15_h4iuc")
+neck = NodePath("../neck")
+camera = NodePath("../neck/ShakePivot/Camera3D")
+hands = NodePath("../Hands")
+shake_pivot = NodePath("../neck/ShakePivot")
