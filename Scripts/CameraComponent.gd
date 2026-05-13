@@ -44,9 +44,6 @@ func release() -> void:
 	look_ended.emit()
 
 func shake(duration := 0.25, position_strength := 0.06, rotation_strength := 0.03, frequency := 28.0, return_speed := 12.0) -> void:
-	if not shake_pivot:
-		push_warning("CameraComponent needs a shake_pivot Node3D assigned.")
-		return
 
 	_shake_duration = max(duration, 0.001)
 	_shake_time_left = _shake_duration

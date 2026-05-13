@@ -48,6 +48,7 @@ func _ready() -> void:
 		return
 	else:
 		global_position = spawn_point.global_position
+		rotation.y = spawn_point.rotation.y
 		spawn_point_pos = global_position
 		spawn_point.queue_free()
 
@@ -90,8 +91,6 @@ func _physics_process(delta: float) -> void:
 	is_sprinting = Input.is_action_pressed("sprint")
 	movement_speed = sprint_speed if is_sprinting else walk_speed
 
-	# --- water check ---
-
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
@@ -100,7 +99,9 @@ func _physics_process(delta: float) -> void:
 
 	var input_dir := Input.get_vector("left", "right", "up", "down")
 	var target_velocity = Vector3.ZERO
-	var direction = (neck.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction := neck.global_transform.basis * Vector3(input_dir.x, 0, input_dir.y)
+	direction.y = 0
+	direction = direction.normalized()
 	if direction:
 		is_moving = true
 		target_velocity.x = direction.x * movement_speed

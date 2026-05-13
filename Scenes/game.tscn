@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ca6ndsmq0xm5s" path="res://Scenes/spawnpoint.tscn" id="7_h4fw4"]
 [ext_resource type="Script" uid="uid://btfyvfee70oxk" path="res://Scripts/Water.gd" id="7_v158k"]
 [ext_resource type="PackedScene" uid="uid://6ibp8sng23yc" path="res://Scenes/boat.tscn" id="8_v158k"]
+[ext_resource type="PackedScene" uid="uid://dd603qyc3n8nc" path="res://Scenes/rain.tscn" id="9_h4fw4"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_i6g32"]
 noise_type = 3
@@ -44,8 +45,15 @@ sky = SubResource("Sky_wowpa")
 ambient_light_source = 3
 reflected_light_source = 2
 tonemap_mode = 2
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+fog_aerial_perspective = 0.536
+fog_sky_affect = 0.2
+fog_height_density = 1.6495
+fog_depth_curve = 0.5547841
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.004
+volumetric_fog_albedo = Color(0.65834004, 0.6583399, 0.6583399, 1)
 volumetric_fog_emission_energy = 0.0
 volumetric_fog_gi_inject = 0.0
 adjustment_enabled = true
@@ -81,9 +89,9 @@ shader_parameter/foam_softness = 0.10999999754128
 shader_parameter/foam_strength = 0.30999999307088
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_1l0tm"]
-size = Vector2(100, 100)
-subdivide_width = 100
-subdivide_depth = 100
+size = Vector2(500, 500)
+subdivide_width = 200
+subdivide_depth = 200
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h4fw4"]
 render_priority = 0
@@ -259,6 +267,7 @@ material_override = SubResource("ShaderMaterial_i6g32")
 extra_cull_margin = 16384.0
 mesh = SubResource("PlaneMesh_1l0tm")
 script = ExtResource("7_v158k")
+water_size = Vector2(500, 500)
 shader_material = SubResource("ShaderMaterial_h4fw4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1768421082]
@@ -314,9 +323,18 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.482678, -0.4070902, -39.93
 mesh = SubResource("SphereMesh_i6g32")
 
 [node name="Spawnpoint" parent="." unique_id=845859994 instance=ExtResource("7_h4fw4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.980027, 10.471184)
+transform = Transform3D(0.54198676, 0, -0.8403868, 0, 1, 0, 0.8403868, 0, 0.54198676, 0, 5.980027, 10.471184)
 
 [node name="RigidBody3D" parent="." unique_id=188616958 node_paths=PackedStringArray("water") instance=ExtResource("8_v158k")]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 28.618687, 1.8512578, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 30.992054, 1.8512578, 0)
+float_strength = 100.0
 max_depth = 1.0
 water = NodePath("../water")
+
+[node name="GPUParticlesCollisionHeightField3D" type="GPUParticlesCollisionHeightField3D" parent="." unique_id=510110223]
+size = Vector3(500, 70, 500)
+update_mode = 1
+follow_camera_enabled = true
+
+[node name="Rain" parent="." unique_id=1172462668 instance=ExtResource("9_h4fw4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.629436, 0)
