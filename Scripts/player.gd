@@ -42,7 +42,6 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export var hands : Node3D
 
 func _ready() -> void:
-	await owner.ready
 	global.player = self
 	if spawn_point == null:
 		return
@@ -128,18 +127,12 @@ func _check_interactable() -> void:
 	if ray_cast.is_colliding():
 		var collider = ray_cast.get_collider()
 		var interactable = _find_interactable(collider)
-
 		if interactable:
 			if interactable != current_interactable:
 				current_interactable = interactable
 				global.ui.set_interact_visible(true)
 			return
 
-	if current_interactable:
-		current_interactable = null
-		global.ui.set_interact_visible(false)
-	
-	# Nothing interactable found
 	if current_interactable:
 		current_interactable = null
 		global.ui.set_interact_visible(false)
