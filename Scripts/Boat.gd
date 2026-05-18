@@ -138,7 +138,6 @@ func exit_boat() -> void:
 		get_tree().current_scene.add_child(player)
 
 		player.global_position = exit_point.global_position
-		player.global_rotation = exit_point.global_rotation
 		player.add_to_group("player")
 
 		is_driving = false

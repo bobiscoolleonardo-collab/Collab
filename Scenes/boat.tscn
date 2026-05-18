@@ -14,12 +14,14 @@ script = ExtResource("1_g7r5y")
 boat_path = NodePath("Boat")
 
 [node name="Boat" type="RigidBody3D" parent="." unique_id=2144697698 node_paths=PackedStringArray("exit_point", "camera", "camera_component", "neck")]
-mass = 40.0
+mass = 10.0
 script = ExtResource("2_tcwdh")
 player_scene = ExtResource("3_tdcrg")
-move_force = 100.0
-turn_force = 10.0
-exit_point = NodePath("../ExitPoint")
+water_height = 0.1
+move_force = 600.0
+turn_force = 300.0
+buoyancy_force = 30.0
+exit_point = NodePath("ExitPoint")
 camera = NodePath("Neck/Camera3D")
 camera_component = NodePath("Neck/CameraComponent")
 neck = NodePath("Neck")
@@ -56,5 +58,5 @@ transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 2
 script = ExtResource("5_tdcrg")
 metadata/_custom_type_script = "uid://drjk75mc6len"
 
-[node name="ExitPoint" type="Marker3D" parent="." unique_id=394250976]
+[node name="ExitPoint" type="Marker3D" parent="Boat" unique_id=394250976]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.32599, 17.786057, 0)
