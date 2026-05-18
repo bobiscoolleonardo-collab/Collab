@@ -110,7 +110,6 @@ func _physics_process(delta: float) -> void:
 	target_roll = lerp(target_roll, 0.0, delta * 5.0)
 	move_and_slide()
 	camera_bob(delta)
-
 	if camera_component:
 		pitch = camera_component.update(delta, pitch, sway_smooth)
 
